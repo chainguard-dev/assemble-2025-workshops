@@ -1,0 +1,18 @@
+FROM cgr.dev/chainguard/nginx:latest-dev AS builder
+
+USER root
+# Note we are copying from the non-dev image here, this needs to match the final image base
+COPY --from=cgr.dev/chainguard-private/nginx:latest / /base-chroot
+RUN apk add --no-cache --no-commit-hooks --root /base-chroot gettext busybox
+
+
+FROM cgr.dev/chainguard-private/nginx:latest
+# Copy over the apks prep'ed at the end of the build stage (no apk-add in this image)
+COPY --from=builder /base-chroot /
+
+COPY --chown=65532:65532 html /var/lib/nginx/html
+COPY start.sh /start.sh
+ENV MY_NAME="Default Name from Dockerfile"
+ENV MY_ENV="Default Environment from Dockerfile"
+
+ENTRYPOINT ["/start.sh"]
