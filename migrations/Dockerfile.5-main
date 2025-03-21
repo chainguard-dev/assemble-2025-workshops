@@ -1,2 +1,0 @@
-FROM cgr.dev/chainguard/nginx:latest
-COPY --chown=65532:65532 html /var/lib/nginx/html

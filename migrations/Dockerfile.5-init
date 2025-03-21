@@ -1,8 +1,0 @@
-FROM cgr.dev/chainguard/wolfi-base:latest
-RUN apk add --no-cache gettext
-COPY html/index.html /index.html
-
-ENV MY_NAME="Default Name from Init Container"
-ENV MY_ENV="Default Environment from Init Container"
-
-ENTRYPOINT ["/start.sh"]
