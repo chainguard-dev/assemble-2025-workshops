@@ -1,0 +1,13 @@
+FROM cgr.dev/chainguard/python:latest-dev AS build
+WORKDIR /app
+RUN python3 -m venv venv
+COPY requirements.txt requirements.txt
+COPY app.py app.py
+RUN venv/bin/pip install -r requirements.txt
+
+FROM cgr.dev/chainguard/python:latest
+COPY --from=build --chown=65532:65532 /app /app
+WORKDIR /app
+COPY --chown=65532:65532 start.py start.py
+ENTRYPOINT ["venv/bin/python"]
+CMD ["start.py"]

@@ -1,0 +1,7 @@
+FROM cgr.dev/chainguard/python:latest-dev
+WORKDIR /app
+COPY requirements.txt requirements.txt
+COPY app.py app.py
+RUN pip install -r requirements.txt
+COPY start.sh /start.sh
+ENTRYPOINT ["/start.sh"]
