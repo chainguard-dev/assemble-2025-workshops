@@ -47,7 +47,7 @@ function step3 {
   wait
   $BATCAT Dockerfile.3
   buildImage 3
-  runContainer 3 "Yoda" "Degoba"
+  runContainer 3 "Yoda" "Degobah"
   pe "docker images $IMAGE_BASE_NAME"
   pe "syft $IMAGE_BASE_NAME:1"
   pe "syft $IMAGE_BASE_NAME:3"
@@ -71,7 +71,7 @@ function step4 {
 function step5 {
   clear
   kubectl delete -f web.yaml 2>/dev/null || true
-  banner "Step 5: Use a Kubernetes InitContainer for initalization, and a final image with no extras"
+  banner "Step 5: Use a Kubernetes InitContainer for initialization, and a final image with no extras"
   echo "# Make sure kind is running"
   pe './kind-setup.sh'
   wait
