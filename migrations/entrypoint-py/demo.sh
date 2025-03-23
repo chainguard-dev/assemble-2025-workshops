@@ -10,7 +10,7 @@ function buildImage {
 }
 
 function runContainer {
-  local port=$((5000 + $1))
+  local port=$((9000 + $1))
   docker rm -f $IMAGE_BASE_NAME-$1 2>/dev/null || true
   pe "docker run -d -p $port:5000 --name $IMAGE_BASE_NAME-$1 $IMAGE_BASE_NAME:$1"
   pe "docker logs $IMAGE_BASE_NAME-$1"
@@ -60,7 +60,7 @@ function step4 {
   buildImage 4
   pe "docker-compose up -d"
   pe "docker-compose logs -f"
-  pe "curl -s http://localhost:5004/"
+  pe "curl -s http://localhost:9004/"
 }
 
 case $1 in

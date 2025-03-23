@@ -18,7 +18,7 @@ services:
     image: pyapp:4
     container_name: pyapp-4
     ports:
-      - 5004:5000
+      - 9004:5000
     volumes:
       - type: volume
         source: movie-data
