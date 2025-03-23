@@ -1,0 +1,1 @@
+entrypoint-nginx/kind-setup.sh
