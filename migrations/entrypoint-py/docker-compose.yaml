@@ -1,0 +1,30 @@
+services:
+  init:
+    image: cgr.dev/chainguard/curl
+    container_name: pyapp-4-init
+    user: root
+    volumes:
+      - type: volume
+        source: movie-data
+        target: /data
+
+    command: ["https://swapi.dev/api/films", "-o", "/data/sw.json"]
+    restart: "no"
+
+  pyapp:
+    depends_on:
+      init:
+        condition: service_completed_successfully
+    image: pyapp:4
+    container_name: pyapp-4
+    ports:
+      - 5004:5000
+    volumes:
+      - type: volume
+        source: movie-data
+        target: /app/sw.json
+        volume:
+          subpath: sw.json
+
+volumes:
+  movie-data:

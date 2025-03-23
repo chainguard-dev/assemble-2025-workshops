@@ -5,3 +5,4 @@ COPY app.py app.py
 RUN pip install -r requirements.txt
 COPY start.sh /start.sh
 ENTRYPOINT ["/start.sh"]
+CMD ["app.py"]

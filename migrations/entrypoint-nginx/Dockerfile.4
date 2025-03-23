@@ -2,11 +2,14 @@ FROM cgr.dev/chainguard/nginx:latest-dev AS builder
 
 USER root
 # Note we are copying from the non-dev image here, this needs to match the final image base
-COPY --from=cgr.dev/chainguard-private/nginx:latest / /base-chroot
-RUN apk add --no-cache --no-commit-hooks --root /base-chroot gettext busybox
+COPY --from=cgr.dev/chainguard/nginx:latest / /base-chroot
 
+# "apk add" depends on /bin/sh existing for pre / post install scripts, add bash-binsh temporarily to satisfy this
+RUN apk add --no-cache --no-commit-hook --root /base-chroot bash-binsh && \
+    apk add --no-cache --root /base-chroot gettext busybox && \
+    apk del --no-cache --root /base-chroot bash-binsh
 
-FROM cgr.dev/chainguard-private/nginx:latest
+FROM cgr.dev/chainguard/nginx:latest
 # Copy over the apks prep'ed at the end of the build stage (no apk-add in this image)
 COPY --from=builder /base-chroot /
 

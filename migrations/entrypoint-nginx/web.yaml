@@ -23,7 +23,7 @@ spec:
     spec:
       initContainers:
       - name: envsubst
-        image: ttl.sh/smalls-assemble-init:1h
+        image: localhost:5001/mynginx:5-init
         imagePullPolicy: Always
         envFrom:
         - configMapRef:
@@ -35,7 +35,7 @@ spec:
         command: ['sh', '-c', 'cat /index.html | envsubst | tee /new-html/index.html']
       containers:
       - name: nginx
-        image: ttl.sh/smalls-assemble-main:1h
+        image: localhost:5001/mynginx:5-main
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
@@ -47,41 +47,6 @@ spec:
       volumes:
       - name: html
         emptyDir: {}
-#---
-#apiVersion: v1
-#kind: Pod
-#metadata:
-#  name: nginx-pod
-#  labels:
-#    app: nginx
-#spec:
-#  initContainers:
-#  - name: envsubst
-#    image: ttl.sh/smalls-assemble-init:1h
-#    imagePullPolicy: Always
-#    envFrom:
-#    - configMapRef:
-#        name: index-vars
-#    volumeMounts:
-#    - name: html
-#      mountPath: /new-html
-#      readOnly: false
-#    command: ['sh', '-c', 'cat /index.html | envsubst | tee /new-html/index.html']
-#  containers:
-#  - name: nginx
-#    image: ttl.sh/smalls-assemble-main:1h
-#    imagePullPolicy: Always
-#    ports:
-#    - containerPort: 8080
-#    volumeMounts:
-#    - name: html
-#      mountPath: /var/lib/nginx/html/index.html
-#      subPath: index.html
-#      readOnly: true
-#  volumes:
-#  - name: html
-#    emptyDir: {}
-
 ---
 apiVersion: v1
 kind: Service
